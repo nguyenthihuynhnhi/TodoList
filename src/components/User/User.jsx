@@ -2,18 +2,22 @@ import React, { useEffect, useState } from "react";
 import { Select } from "antd";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { todoREDUX } from "../../redux/slices/todoSlice";
+import { setLoadingData, todoREDUX } from "../../redux/slices/todoSlice";
 
 function User() {
   const dispatch = useDispatch();
 
   const handleChange = (value) => {
+    //bat loading
+    dispatch(setLoadingData(true));
     axios
       .get(`https://jsonplaceholder.typicode.com/users/${value}/todos`)
       .then((response) => {
         console.log("🏊🏼‍♀️ 👙 .then 👙 response:", response);
 
         dispatch(todoREDUX(response.data));
+        //tat loading
+        dispatch(setLoadingData(false));
       })
       .catch((error) => {
         console.error("Error:", error);

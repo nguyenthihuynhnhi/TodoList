@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 
 const initialState = {
   taskList: [],
+  loadingData: false,
 };
 
 const todoSlice = createSlice({
@@ -23,9 +23,12 @@ const todoSlice = createSlice({
       // dùng index đó để chọt vào mảng và update trạng thái của stask
       state.taskList[index].completed = true;
     },
+    setLoadingData: (state, { payload }) => {
+      state.loadingData = payload;
+    },
   },
 });
 
-export const { todoREDUX, todoChangeCompletedREDUX } = todoSlice.actions;
+export const { setLoadingData, todoREDUX, todoChangeCompletedREDUX } = todoSlice.actions;
 
 export default todoSlice.reducer;
