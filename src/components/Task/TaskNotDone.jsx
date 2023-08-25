@@ -3,11 +3,12 @@ import IconNotDone from "../../assets/icon/IconNotDone";
 import { Button } from "antd";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { todoChangeCompletedREDUX } from "../../redux/slices/todoSlice";
+import { todoChangeCompletedREDUX, todoChangeCompletedsREDUX } from "../../redux/slices/todoSlice";
 
 function TaskNotDone({ task }) {
   const [loadingMark, setLoadingMark] = useState(false);
   const dispatch = useDispatch();
+
   const handleChangeCompleted = (task) => {
     //https://jsonplaceholder.typicode.com/todos/${task.id}
     setLoadingMark(true);
@@ -16,7 +17,7 @@ function TaskNotDone({ task }) {
       .then((response) => {
         console.log("🏊🏼‍♀️ 👙 .then 👙 response:", response);
         setLoadingMark(false);
-        dispatch(todoChangeCompletedREDUX(task));
+        dispatch(todoChangeCompletedsREDUX(task));
       })
       .catch((error) => {
         console.error("Error:", error);

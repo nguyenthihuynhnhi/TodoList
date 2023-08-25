@@ -1,21 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { Select } from "antd";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import { setLoadingData, todoREDUX } from "../../redux/slices/todoSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoadingData, setTaskListsREDUX, setUserSelectREDUX, todoREDUX } from "../../redux/slices/todoSlice";
 
 function User() {
   const dispatch = useDispatch();
 
+  const { taskLists } = useSelector((state) => {
+    return state.todoSlice;
+  });
+
   const handleChange = (value) => {
     //bat loading
+
+    dispatch(setUserSelectREDUX(value));
+
+    //  co du lieu thi return
+    if (taskLists[value] !== undefined) return;
+
     dispatch(setLoadingData(true));
+
     axios
       .get(`https://jsonplaceholder.typicode.com/users/${value}/todos`)
       .then((response) => {
         console.log("🏊🏼‍♀️ 👙 .then 👙 response:", response);
 
-        dispatch(todoREDUX(response.data));
+        // dispatch(todoREDUX(response.data));
+        dispatch(setTaskListsREDUX(response.data));
         //tat loading
         dispatch(setLoadingData(false));
       })

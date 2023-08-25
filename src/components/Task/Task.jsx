@@ -5,7 +5,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import TaskNotDone from "./TaskNotDone";
 
 function Task() {
-  const { taskList } = useSelector((state) => {
+  const { taskLists, userSelect } = useSelector((state) => {
     return state.todoSlice;
   });
 
@@ -13,17 +13,19 @@ function Task() {
     return state.todoSlice;
   });
 
-  const taskNotDone = taskList.filter((task) => {
+  console.log(taskLists[userSelect]);
+
+  const taskNotDone = taskLists[userSelect]?.filter((task) => {
     return task.completed !== true;
   });
 
-  const taskDone = taskList.filter((task) => {
+  const taskDone = taskLists[userSelect]?.filter((task) => {
     return task.completed === true;
   });
 
   const renderTaskList = () => {
     //chua co data
-    if (taskList.length === 0) {
+    if (taskLists[userSelect]?.length === 0) {
       if (loadingData === false) {
         return <div className="text-gray-400 text-center">No data</div>;
       }
@@ -37,7 +39,7 @@ function Task() {
     }
 
     //co data
-    if (taskList.length !== 0) {
+    if (taskLists[userSelect]?.length !== 0) {
       if (loadingData === true) {
         return (
           <div className="text-center">
@@ -49,14 +51,14 @@ function Task() {
         return (
           <>
             {/* FASLE  */}
-            {taskNotDone.map((task, index) => (
+            {taskNotDone?.map((task, index) => (
               <div key={index}>
                 <TaskNotDone task={task} />
               </div>
             ))}
 
             {/* TRUE  */}
-            {taskDone.map((task, index) => (
+            {taskDone?.map((task, index) => (
               <div className="border border-gray-100 h-10 leading-10 pl-5 " key={index}>
                 {<IconDone />} <span className="pl-1">{task.title}</span>
               </div>
@@ -74,7 +76,7 @@ function Task() {
 
       <div className=" py-4">
         <span>
-          Done {taskDone.length}/{taskList.length} tasks
+          Done {taskDone?.length}/{taskLists[userSelect]?.length} tasks
         </span>
       </div>
     </div>
